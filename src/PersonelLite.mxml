@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+							xmlns:s="library://ns.adobe.com/flex/spark" 
+							applicationDPI="160"
+							creationComplete="application_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import entities.CalKad;
+			import entities.Personel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import nz.co.codec.flexorm.EntityManager;
+			import nz.co.codec.flexorm.criteria.Criteria;
+			
+			import views.PersonelLiteHomeView;
+			
+			public var dbFile:File = File.applicationDirectory.resolvePath("PersonelLite.db");
+			public var entityManager:EntityManager = EntityManager.getInstance();
+			public var sqlConnection:SQLConnection = new SQLConnection();
+			
+			protected function application_creationCompleteHandler(event:FlexEvent):void
+			{
+				sqlConnection.open(dbFile);
+				entityManager.sqlConnection = sqlConnection;
+				navigator.replaceView(PersonelLiteHomeView);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:ViewNavigatorApplication>

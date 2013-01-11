@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="HomeView" xmlns:util="util.*" xmlns:components="components.*">
+	<fx:Script>
+		<![CDATA[
+			import entities.CalKad;
+			import entities.Personel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.errors.ItemPendingError;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			
+			import nz.co.codec.flexorm.EntityManager;
+			import nz.co.codec.flexorm.criteria.Criteria;
+			
+			import util.QueryBuilder;
+			
+			private var entityManager:EntityManager = EntityManager.getInstance();
+			
+			protected function fetchRows(offset:int):ArrayCollection//:void
+			{
+				var p:Personel = new Personel();
+				p.rutbe = 100;
+				return QueryBuilder.getCriteriaQueryResult(p, ["rutbe"], 50, offset);
+			}
+			
+			
+			protected function rowCount():int
+			{
+				var p:Personel = new Personel();
+				p.rutbe = 100;
+				return QueryBuilder.getCriteriaQueryRowCount(p, ["rutbe"]);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	<components:PagedAsyncList id="list" left="0" right="0" top="0" bottom="0"
+							   countFunction="rowCount"
+							   creationComplete="list.retrieve()" fetchFunction="fetchRows" labelField="adi"/>
+</s:View>

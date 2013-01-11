@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" width="400" height="300" xmlns:util="util.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.errors.ItemPendingError;
+			import mx.events.FlexEvent;
+			
+			public var countFunction:Function;	//	function countFunction():int
+			public var fetchFunction:Function;	//	function fetchFunction(offset:int):ArrayCollection
+			
+			public function retrieve():void {
+				pagedArrayList.length = countFunction.apply();
+			}
+			
+			public function addItems(offset:int):void {
+				var items:ArrayCollection = fetchFunction.apply(null, [offset]);
+				
+				if (items) {
+					for(var i:int = 0; i < items.length; i++) {
+						pagedArrayList.setItemAt(items[i], offset + i);
+					}
+				}
+			}
+			
+			private function createPendingItemFunctionHandler(index:int, ipe:ItemPendingError):Object
+			{
+				callLater(addItems, [index]);
+				
+				return null;
+			}
+			
+			private function pagedArrayList_initializeHandler(event:FlexEvent):void
+			{
+				asyncListView.list = pagedArrayList;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<util:PagedArrayList id="pagedArrayList" initialize="pagedArrayList_initializeHandler(event)"/>
+	</fx:Declarations>
+	<s:AsyncListView id="asyncListView" createPendingItemFunction="createPendingItemFunctionHandler"/>
+</s:List>

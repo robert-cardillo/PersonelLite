@@ -1,0 +1,6 @@
+https://bitbucket.org/christianjunk/flexorm/ v0.8.2'den forklanmistir.
+
+Criteria ve SelectCommand class'larina limit ve offset property'leri eklendi.
+SelectCommand class'ina countMode property'si eklendi.
+SelectCommand.prepareStatement metodu yukaridaki degisiklikler dogrultusunda yenilendi.
+EntityManger class'ina fetchCriteriaRowCount metodu eklendi.
